@@ -1,6 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+  Dimensions,
+} from 'react-native';
 
+const {width, height} = Dimensions.get('window');
+console.log('Screen Dimensions:', width, height);
 const Screen2 = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
