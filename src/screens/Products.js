@@ -17,9 +17,11 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {addItemToCart} from '../redux/CartSlice';
 import {useNavigation} from '@react-navigation/native';
+import {addItemToFav} from '../redux/FavouritesSlice';
 
 const Products = () => {
-  const reduxData = useSelector(state => state.cart);
+  const productsData = useSelector(state => state.cart);
+  const favouritesData = useSelector(state => state.fav);
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -40,8 +42,15 @@ const Products = () => {
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.header}>
         <Text style={{fontWeight: '600', fontSize: 18}}>Redux App</Text>
-        <TouchableOpacity style={styles.favouriteItems}>
-          <Text style={{color: 'white'}}>Favourites (0)</Text>
+        <TouchableOpacity
+          style={styles.favouriteItems}
+          onPress={() => {
+            navigation.navigate('Favourites');
+          }}>
+          <Text
+            style={{
+              color: 'white',
+            }}>{`Favourites (${favouritesData.data.length})`}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.cartItemsView}
@@ -51,7 +60,7 @@ const Products = () => {
           <Text
             style={
               styles.cartItems
-            }>{`Cart Items (${reduxData.data.length})`}</Text>
+            }>{`Cart Items (${productsData.data.length})`}</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -98,7 +107,11 @@ const Products = () => {
                     }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => {
+                    dispatch(addItemToFav(item));
+                  }}>
                   <Image
                     source={require('../images/Favourites.png')}
                     style={{
